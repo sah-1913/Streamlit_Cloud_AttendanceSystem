@@ -29,3 +29,8 @@ st.subheader('Overall Attendance')
 all_attendance = {student: st.session_state.attendance.get(student, 'Not Marked') for student in all_students}
 all_attendance_df = pd.DataFrame(list(all_attendance.items()), columns=['Name', 'Status'])
 st.table(all_attendance_df)
+
+# Add a button to export the attendance data to a CSV file
+if st.button('Export to CSV'):
+    all_attendance_df.to_csv('attendance.csv', index=False)
+    st.success('Attendance data exported to attendance.csv')
