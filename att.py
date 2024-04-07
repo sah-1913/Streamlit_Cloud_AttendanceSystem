@@ -1,5 +1,12 @@
 import streamlit as st
 import pandas as pd
+import base64
+
+# Function to create a download link for a DataFrame
+def create_download_link(df, filename):
+    csv = df.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode()
+    return f'<a href="data:file/csv;base64,{b64}" download="{filename}">Download CSV file</a>'
 
 # List of all students
 all_students = ['Sakshi', 'Bhavin', 'Prasad', 'Nairutya']
@@ -32,5 +39,5 @@ st.table(all_attendance_df)
 
 # Add a button to export the attendance data to a CSV file
 if st.button('Export to CSV'):
-    all_attendance_df.to_csv('attendance.csv', index=False)
-    st.success('Attendance data exported to attendance.csv')
+    download_link = create_download_link(all_attendance_df, 'attendance.csv')
+    st.markdown(download_link, unsafe_allow_html=True)
